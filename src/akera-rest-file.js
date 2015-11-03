@@ -13,7 +13,7 @@ function AkeraFile(akeraWebInstance) {
 AkeraFile.prototype.init = function(brokerName, route) {
     var app = this.akeraWebInstance.app;
 
-    route = (route === '/' ? '/rest' : route) || '/rest';
+    route = (route === '/' ? '/rest' : route) || this.akeraWebInstance.akeraServices.restRoute || '/rest';
 
     app.use(route + (brokerName ? '/' + brokerName : '/:broker'), new file_router(brokerName || null, this.akeraWebInstance));
     this.log('info', 'Akera file service enabled for all brokers.');
