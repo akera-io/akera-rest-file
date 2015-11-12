@@ -14,7 +14,7 @@ function getMiddleware(brokerName, akeraWebInstance) {
         connect(broker, function(conn, err) {
             if (err) {
                 res.status(500).send(err);
-                return;
+                throw err;
             }
             getFile(conn, path, res);
         });
@@ -96,7 +96,7 @@ function getPath(req) {
 
 function getFile(conn, path, res) {
     try {
-        conn.call.procedure('rest/akeraList.p').parameters(
+        conn.call.procedure('io/akera/rest/fs/read').parameters(
             p.input(path, 'character'), p.output('longchar')).run().then(
             function(result) {
                 try {
@@ -121,7 +121,7 @@ function getFile(conn, path, res) {
 
 function createFile(conn, file, res) {
     try {
-        conn.call.procedure('rest/akeraNew.p').parameters(
+        conn.call.procedure('io/akera/rest/fs/create').parameters(
                 p.input(file.path, 'character'), p.input(file.isDir, 'logical'), p.input(file.content, 'longchar'))
             .run().then(function(result) {
                 console.log(result);
@@ -141,7 +141,7 @@ function createFile(conn, file, res) {
 function updateFile(conn, file, res) {
     console.log('SAVE FILE', file);
     try {
-        conn.call.procedure('rest/akeraSave.p').parameters(
+        conn.call.procedure('io/akera/rest/fs/update').parameters(
                 p.input(file.path, 'character'), p.input(file.content, 'longchar'))
             .run().then(function(result) {
                 console.log(result);
@@ -160,7 +160,7 @@ function updateFile(conn, file, res) {
 
 function deleteFile(conn, path, res) {
     try {
-        conn.call.procedure('rest/akeraDelete.p').parameters(
+        conn.call.procedure('io/akera/rest/fs/delete').parameters(
                 p.input(path, 'character'))
             .run().then(function(result) {
                 console.log(result);
