@@ -1,16 +1,14 @@
-var express = require('express');
 var akeraApi = require('akera-api');
 var p = akeraApi.call.parameter;
+var akeraWebInstance;
 
-function getMiddleware(brokerName, akeraWebInstance) {
-    var router = express.Router({
-        mergeParams: true
-    });
-
-    router.get('/file*', function(req, res) {
+function setupRouter(config, router) {
+    var broker = router.__broker;
+    akeraWebInstance = router.__app;
+    console.log('SETUP FILE ROUTER');
+    router.get('/*', function(req, res) {
+      console.log('FILE GET');
         var path = getPath(req);
-        brokerName = req.params.broker || brokerName;
-        var broker = akeraWebInstance.getBroker(brokerName);
         connect(broker, function(conn, err) {
             if (err) {
                 res.status(500).send(err);
@@ -20,10 +18,7 @@ function getMiddleware(brokerName, akeraWebInstance) {
         });
     });
 
-    router.put('/file*', function(req, res) {
-        console.log('ROUTER PUT');
-        brokerName = req.params.broker || brokerName;
-        var broker = akeraWebInstance.getBroker(brokerName);
+    router.put('/*', function(req, res) {
         connect(broker, function(conn, err) {
             if (err) {
                 akeraWebInstance.log('error', err.message);
@@ -42,9 +37,7 @@ function getMiddleware(brokerName, akeraWebInstance) {
         });
     });
 
-    router.post('/file*', function(req, res) {
-        brokerName = req.params.broker || brokerName;
-        var broker = akeraWebInstance.getBroker(brokerName);
+    router.post('/*', function(req, res) {
         connect(broker, function(conn, err) {
             if (err) {
                 res.status(500).send(err);
@@ -57,9 +50,7 @@ function getMiddleware(brokerName, akeraWebInstance) {
         });
     });
 
-    router.delete('/file*', function(req, res) {
-        brokerName = req.params.broker || brokerName;
-        var broker = akeraWebInstance.getBroker(brokerName);
+    router.delete('/*', function(req, res) {
         var path = getPath(req);
         connect(broker, function(conn, err) {
             if (err) {
@@ -69,8 +60,6 @@ function getMiddleware(brokerName, akeraWebInstance) {
             deleteFile(conn, path, res);
         });
     });
-
-    return router;
 }
 
 function connect(broker, callback) {
@@ -177,4 +166,4 @@ function deleteFile(conn, path, res) {
     }
 }
 
-module.exports = getMiddleware;
+module.exports = setupRouter;
