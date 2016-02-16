@@ -201,4 +201,4 @@ function AkeraRestFile(akeraWebApp) {
 AkeraRestFile.init = function(config, router) {
   var akeraRestFile = new AkeraRestFile();
   akeraRestFile.init(config, router);
-}
+};
