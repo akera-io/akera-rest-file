@@ -42,7 +42,8 @@ $ npm install akera-rest-file
   The interface can then be used to access/update files on the application server's web-path by making 
   HTTP requests: 
 
-| Method | Url                                     | Function |
+| Method | Url | Function |
+| --- | --- | --- |
 | GET    | `http://[host]/[broker]/rest-file/path` | reads file or folder content of given path |
 | PUT    | `http://[host]/[broker]/rest-file/path` | create a new file at given path, use `isDir` parameter with value or `true` to create a folder |
 | POST   | `http://[host]/[broker]/rest-file/path` | update the file content at given path using the request body as new content |
