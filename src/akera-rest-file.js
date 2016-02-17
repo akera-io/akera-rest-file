@@ -91,7 +91,7 @@ function AkeraRestFile(akeraWebApp) {
     try {
       conn.call.procedure('io/akera/rest/fs/delete').parameters(
           p.input(path, 'character')).run().then(function(result) {
-        cb(result);
+        cb(null, result);
       }, function(err) {
         cb(err);
       });
