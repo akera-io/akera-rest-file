@@ -51,4 +51,4 @@ $ npm install akera-rest-file
  
 ## License
 	
-MIT 
+[MIT](https://github.com/akera-io/akera-rest-file/raw/master/LICENSE) 
