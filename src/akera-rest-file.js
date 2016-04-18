@@ -24,9 +24,7 @@ function AkeraRestFile(akeraWebApp) {
   this.connect = function(broker, callback) {
     akeraApi.connect(broker).then(function(conn) {
       callback(null, conn);
-    }, function(err) {
-      callback(err);
-    });
+    }, callback);
   };
 
   this.getPath = function(req) {
@@ -52,9 +50,7 @@ function AkeraRestFile(akeraWebApp) {
             }
 
             cb(null, data);
-          }, function(err) {
-            cb(err);
-          });
+          }, cb);
     } catch (err) {
       cb(err);
     }
@@ -66,9 +62,7 @@ function AkeraRestFile(akeraWebApp) {
           p.input(file.path, 'character'), p.input(file.isDir, 'logical'),
           p.input(file.content, 'longchar')).run().then(function(result) {
         cb(null, result);
-      }, function(err) {
-        cb(err);
-      });
+      }, cb);
     } catch (err) {
       cb(err);
     }
@@ -80,9 +74,7 @@ function AkeraRestFile(akeraWebApp) {
           p.input(file.path, 'character'), p.input(file.content, 'longchar'))
           .run().then(function(result) {
             cb(null, result);
-          }, function(err) {
-            cb(err);
-          });
+          }, cb);
     } catch (err) {
       cb(err);
     }
@@ -93,9 +85,7 @@ function AkeraRestFile(akeraWebApp) {
       conn.call.procedure('io/akera/rest/fs/delete').parameters(
           p.input(path, 'character')).run().then(function(result) {
         cb(null, result);
-      }, function(err) {
-        cb(err);
-      });
+      }, cb);
     } catch (err) {
       cb(err);
     }
